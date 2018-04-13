@@ -12,17 +12,29 @@ services:
       ENSURE_NAMENODE_DIR: /tmp/hadoop-root/dfs/name
   datanode:
     image: 'flokkr/hadoop-hdfs-datanode:latest'
+    deploy:
+      mode: global
     env_file:
       - ./compose-config
   resourcemanager:
-    image: 'flokkr/hadoop-yarn-resourcemanager:latest'
+    image: 'jbourne/resourcemanager-experiment:latest'
     hostname: resourcemanager
     ports:
       - '8088:8088'
-      - '8033:8033'
     env_file:
       - ./compose-config
+    environment:
+      YARN-SITE.XML_yarn.resourcemanager.hostname: 0.0.0.0
   nodemanager:
     image: 'flokkr/hadoop-yarn-nodemanager:latest'
+    deploy:
+      mode: global
+    env_file:
+      - ./compose-config
+  historyserver:
+    image: 'jbourne/hadoop-yarn-historyserver:latest'
+    ports:
+      - '19888:19888'
+      - '8188:8188'
     env_file:
       - ./compose-config
