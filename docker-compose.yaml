@@ -24,7 +24,10 @@ services:
     env_file:
       - ./compose-config
     environment:
-      YARN-SITE.XML_yarn.resourcemanager.hostname: 0.0.0.0
+      - YARN-SITE.XML_yarn.resourcemanager.hostname: 0.0.0.0
+      - AWS_SECRET=${AWS_SECRET}
+      - AWS_ACCESS=${AWS_ACCESS}
+      - VM_COUNT=${VM_COUNT}
   nodemanager:
     image: 'flokkr/hadoop-yarn-nodemanager:latest'
     deploy:
